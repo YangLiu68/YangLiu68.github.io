@@ -542,7 +542,7 @@ footer .wrap { padding-block: 24px 40px; font-family: var(--f-mono); font-size: 
   <section id="projects">
     <div class="wrap">
       <h2>Projects</h2>
-      <p class="intro">AI projects I built outside the lab. The numbers come from each project's own benchmark and test suite.</p>
+      <p class="intro">Projects I built outside the lab. The numbers come from each project's own benchmark and test suite.</p>
 
       <div class="filters" role="group" aria-label="Filter projects">
         <button type="button" id="f-all" data-f="all" aria-pressed="true">All</button>
@@ -572,14 +572,14 @@ footer .wrap { padding-block: 24px 40px; font-family: var(--f-mono); font-size: 
           <div class="card-top"><span>AI agent</span><span>2026</span></div>
           <h3>CodeRepair</h3>
           <p class="what">Sandboxed, test-driven coding agent</p>
-          <p class="desc">A coding agent that fixes bugs from failing tests. It finds the right file, writes a patch, runs the tests in a sandbox,
-            and picks the best fix using tests, type checks and a security review.</p>
+          <p class="desc">A coding agent that reads a bug report, finds the relevant files, writes a patch, tests it in a locked-down
+            sandbox and hands a person a diff to approve. It never merges or pushes code on its own.</p>
           <ul class="facts">
-            <li>Finds the right file on the first guess <span class="num">90%</span> of the time</li>
-            <li>Sandbox (Docker / macOS Seatbelt) blocked <span class="num">15 of 15</span> escape attempts</li>
-            <li>Evaluated on 35 bug-fix tasks, 25 from QuixBugs, with confidence intervals; 532 tests</li>
+            <li>The sandbox (Docker / macOS Seatbelt) contained all <span class="num">15</span> attack tests, from data theft to fork bombs and memory floods</li>
+            <li>On 9 hard bugs with misleading reports, Claude models fixed up to <span class="num">8</span>; every miss happened because the file to fix wasn't in the prompt</li>
+            <li>A security review blocks patches that pass every test but slip in a shell command; benchmark of 44 tasks, 25 from QuixBugs</li>
           </ul>
-          <div class="card-foot"><span>Python · Docker · Ollama · Anthropic API</span><span>Code on request</span></div>
+          <div class="card-foot"><span>Python · Docker · Ollama · Claude API</span><a href="https://github.com/YangLiu68/CodeRepair">GitHub ↗</a></div>
         </article>
 
         <article class="card" data-cat="rag">
@@ -599,28 +599,28 @@ footer .wrap { padding-block: 24px 40px; font-family: var(--f-mono); font-size: 
           <div class="card-top"><span>RAG</span><span>2026</span></div>
           <h3>NovelForge</h3>
           <p class="what">Long-fiction consistency checker</p>
-          <p class="desc">Reads full English and Chinese novels (up to 1.25M words), extracts facts about characters and events as structured
-            JSON, and flags plot contradictions with quoted evidence.</p>
+          <p class="desc">Reads full English and Chinese novels, extracts facts about characters and events, and flags plot contradictions
+            and story-logic problems (unmotivated actions, villains without a motive, setups never paid off), each with quoted evidence.</p>
           <ul class="facts">
-            <li>Raised contradiction recall from 28% to <span class="num">66%</span> with 0 false alarms in 148 checks</li>
-            <li>Puts the right passage first for <span class="num">90.9%</span> of 800 test questions</li>
-            <li>289 tests</li>
+            <li>A structured fact store raised contradiction recall from 28% to <span class="num">66%</span>, with 0 false alarms in 148 look-alike cases</li>
+            <li>Claude Haiku plus the rule checker found <span class="num">12 of 12</span> planted contradictions with no false findings</li>
+            <li>Puts the right passage first for 90.9% of 800 test questions; handles 1.25M-word novels; 291 tests</li>
           </ul>
-          <div class="card-foot"><span>Python · FastAPI · PostgreSQL / pgvector · Ollama</span><span>Code on request</span></div>
+          <div class="card-foot"><span>Python · FastAPI · PostgreSQL / pgvector · React · Claude API</span><a href="https://github.com/YangLiu68/NovelForge">GitHub ↗</a></div>
         </article>
 
         <article class="card" data-cat="gen">
           <div class="card-top"><span>LLM serving</span><span>2026</span></div>
           <h3>MiniServe</h3>
           <p class="what">LLM inference server, modeled on vLLM</p>
-          <p class="desc">Built from scratch: paged KV-cache memory, continuous batching, prefix caching and an OpenAI-compatible streaming API.
-            Outputs match Hugging Face within 2e-5.</p>
+          <p class="desc">Built from scratch: paged KV-cache memory, continuous batching, prefix caching, speculative decoding and an
+            OpenAI-compatible streaming API. Greedy output is token-for-token identical to Hugging Face Transformers.</p>
           <ul class="facts">
-            <li><span class="num">6.8×</span> the throughput of one-at-a-time Hugging Face with 16 users</li>
-            <li>Prefix caching cut time to first token from 671 ms to <span class="num">75 ms</span></li>
-            <li>Speculative decoding is 1.6× faster on copy-heavy prompts; int8 weights use half the memory at the same perplexity</li>
+            <li><span class="num">6.4×</span> the throughput of one-at-a-time Hugging Face with 16 users; median time to first token fell from 18 s to 0.24 s</li>
+            <li>Prefix caching cut time to first token for a shared 1,024-token system prompt from 818 ms to <span class="num">86 ms</span></li>
+            <li>Speculative decoding is 1.6× faster on copy-style prompts; int8 weights use half the memory at the same perplexity</li>
           </ul>
-          <div class="card-foot"><span>Python · PyTorch · FastAPI · Prometheus</span><span>Code on request</span></div>
+          <div class="card-foot"><span>Python · PyTorch · FastAPI · Prometheus</span><a href="https://github.com/YangLiu68/MiniServe">GitHub ↗</a></div>
         </article>
 
         <article class="card" data-cat="agents rag">
@@ -653,13 +653,14 @@ footer .wrap { padding-block: 24px 40px; font-family: var(--f-mono); font-size: 
           <div class="card-top"><span>Generative AI</span><span>2026</span></div>
           <h3>CharacterLab</h3>
           <p class="what">LoRA fine-tuning with an identity benchmark</p>
-          <p class="desc">Fine-tuned Stable Diffusion 1.5 with LoRA to draw a custom character consistently, on a 16 GB laptop, and scored
-            identity with CLIP and DINOv2 similarity.</p>
+          <p class="desc">Fine-tuned Stable Diffusion 1.5 with LoRA to draw an original character consistently, on a 16 GB laptop, and built
+            a benchmark that checks whether it stays the same character, including tests of the scoring metrics themselves.</p>
           <ul class="facts">
-            <li>Identity similarity <span class="num">+0.20</span> (CLIP) and <span class="num">+0.23</span> (DINOv2) over prompting alone</li>
-            <li>Found class leakage with control prompts and fixed it with prior preservation</li>
+            <li>Identity similarity <span class="num">+0.20</span> (CLIP, better on all 80 images) and <span class="num">+0.23</span> (DINOv2) over prompting alone</li>
+            <li>Control prompts caught the character leaking into unrelated images; prior preservation fixed it without losing identity</li>
+            <li>Training can be stopped at any point and resumes to bit-identical weights; 104 tests</li>
           </ul>
-          <div class="card-foot"><span>PyTorch · diffusers · PEFT · open_clip · DINOv2</span><span>Code on request</span></div>
+          <div class="card-foot"><span>PyTorch · diffusers · PEFT · open_clip · DINOv2</span><a href="https://github.com/YangLiu68/CharacterLab">GitHub ↗</a></div>
         </article>
 
         <article class="card" data-cat="ml">
@@ -667,12 +668,13 @@ footer .wrap { padding-block: 24px 40px; font-family: var(--f-mono); font-size: 
           <h3>RewardLab</h3>
           <p class="what">Budget-fair reward search for RL</p>
           <p class="desc">A benchmark comparing LLM-written, Optuna and random-search RL rewards at equal compute, with the analysis
-            registered before the runs.</p>
+            registered before the runs and every search repeated five times.</p>
           <ul class="facts">
             <li>Only calibrated LLM proposals made CartPole learn reliably faster (<span class="num">+83</span> and <span class="num">+112</span> average return over training)</li>
-            <li>Chose the same reward in 4 of 5 repeated searches; 182 tests</li>
+            <li>On sparse-reward MountainCar, where the task reward alone fails, <span class="num">10 of 15</span> LLM searches significantly improved test return, against 2 of 15 black-box searches</li>
+            <li>With calibration, the LLM chose the same reward in 4 of 5 repeated searches; 221 tests</li>
           </ul>
-          <div class="card-foot"><span>Python · Stable-Baselines3 · Gymnasium · Optuna</span><span>Code on request</span></div>
+          <div class="card-foot"><span>Python · Stable-Baselines3 · Gymnasium · Optuna</span><a href="https://github.com/YangLiu68/RewardLab">GitHub ↗</a></div>
         </article>
 
         <article class="card" data-cat="ml">
@@ -685,6 +687,19 @@ footer .wrap { padding-block: 24px 40px; font-family: var(--f-mono); font-size: 
             <li>End to end: preprocessing, normalization, training and a web front end</li>
           </ul>
           <div class="card-foot"><span>Python · PyTorch</span><a href="https://github.com/YangLiu68/Rainfall-Prediction">GitHub ↗</a></div>
+        </article>
+
+        <article class="card" data-cat="apps">
+          <div class="card-top"><span>Game</span><span>2026</span></div>
+          <h3>Sol &amp; Luna</h3>
+          <p class="what">Two-player co-op 3D platformer in the browser</p>
+          <p class="desc">One computer runs a small server and two friends join from laptops or phones on the same Wi-Fi. Almost every
+            puzzle needs both players, and the server keeps both screens in sync.</p>
+          <ul class="facts">
+            <li><span class="num">30</span> campaign levels, 10 escape rooms and 6 horror nights, all designed by hand</li>
+            <li>Tests check that every level can be solved, and two bot players in headless Chrome play levels start to finish with the real controls</li>
+          </ul>
+          <div class="card-foot"><span>Three.js · Node.js · WebSockets</span><a href="https://github.com/YangLiu68/it-takes-two">GitHub ↗</a></div>
         </article>
       </div>
 
@@ -700,8 +715,6 @@ footer .wrap { padding-block: 24px 40px; font-family: var(--f-mono); font-size: 
           <span class="st">PyTorch · JavaScript · 2025 – present</span></li>
         <li data-cat="ml"><b>Q-learning game agents</b>: tabular reinforcement learning agents that learn to play small games.
           <span class="st">Python</span></li>
-        <li data-cat="apps"><b>Sol &amp; Luna</b>: two-player co-op 3D platformer with 30 levels; friends join from laptops or phones on the same Wi-Fi.
-          <span class="st">Three.js · Node.js · WebSockets</span></li>
         <li data-cat="apps"><b><a href="https://github.com/YangLiu68/IOS-Rules_Horror_YangLiu">Rules Horror ↗</a></b>: interactive iOS visual novel told in a chat interface, with branching choices and endings.
           <span class="st">Swift · SwiftUI · Firebase</span></li>
         <li data-cat="apps"><b><a href="https://github.com/YangLiu68/Interactive-Receipt-UI-with-Three.js-WebGL">3D Receipt UI ↗</a></b>: interactive receipt that behaves like real thermal paper.
